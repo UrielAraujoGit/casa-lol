@@ -2,13 +2,25 @@ import { useState } from "react";
 import GlamToggleComponent from "../glam-toggle";
 import RoomComponent, { type RoomType } from "./room";
 import { HOUSE_ROOMS } from "../constants/house-rooms";
+import { setApiRoom } from "../../api/api.service";
 
 function LightingView() {
   const [rooms, setRooms] = useState<RoomType[]>(HOUSE_ROOMS);
   const [bewitched, setBewitched] = useState(Boolean);
-  function handleChange(id: string, patch: Partial<RoomType>) {
-    setRooms((prev) => prev.map((r) => (r.id === id ? { ...r, ...patch } : r)));
-  }
+  const handleChange = async (id: string, room: RoomType) => {
+    try {
+      const response_status = await setApiRoom(room.floor, room.id, room.on);
+      if (response_status === 200) {
+        setRooms((prev) =>
+          prev.map((r) => (r.id === id ? { ...r, ...room } : r)),
+        );
+      } else {
+        throw new Error("status is not 200!");
+      }
+    } catch (e) {
+      console.error("Error al setear habitación", e);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-6 ">
@@ -50,7 +62,11 @@ function LightingView() {
       {/* Grid */}
       <div className="grid grid-cols-2 gap-3">
         {rooms.map((room) => (
-          <RoomComponent key={room.id} room={room} onChange={handleChange} />
+          <RoomComponent
+            key={room.id + room.floor}
+            room={room}
+            onChange={(id, room) => handleChange(id, room)}
+          />
         ))}
       </div>
     </div>

@@ -8,25 +8,33 @@ import {
   Diamond,
   ArrowUpDown,
 } from "lucide-react";
+import { setApiFloor } from "../../api/api.service";
 
 function Floorsdiv() {
   const [current, setCurrent] = useState(0);
   const [target, setTarget] = useState<number | null>(null);
   const [moving, setMoving] = useState(false);
 
-  function callFloor(floorId: number) {
+  const callFloor = async (floorId: number) => {
     if (moving || floorId === current) return;
     setTarget(floorId);
     setMoving(true);
-    setTimeout(
-      () => {
+
+    try {
+      const response_status = await setApiFloor(floorId);
+      if (response_status === 200) {
         setCurrent(floorId);
         setTarget(null);
         setMoving(false);
-      },
-      Math.abs(floorId - current) * 900,
-    );
-  }
+      } else {
+        throw new Error("status is not 200!");
+      }
+    } catch (e) {
+      console.error("Error al mover el ascensor", e);
+      setTarget(null);
+      setMoving(false);
+    }
+  };
 
   const elevatorPct = (current / (HOUSE_FLOORS.length - 1)) * 100;
   const currentFloor = HOUSE_FLOORS.find((f) => f.id === current)!;

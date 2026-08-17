@@ -3,7 +3,7 @@ function RoomComponent({
   onChange,
 }: {
   room: RoomType;
-  onChange: (id: string, patch: Partial<RoomType>) => void;
+  onChange: (id: string, patch: RoomType) => void;
 }) {
   return (
     <button
@@ -56,10 +56,11 @@ function RoomComponent({
 
 export type RoomType = {
   id: string;
+  label: string;
+  floor: number;
   name: string;
   emoji: string;
   on: boolean;
-  brightness: number;
   color: string;
 };
 
