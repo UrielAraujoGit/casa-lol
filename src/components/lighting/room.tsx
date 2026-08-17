@@ -7,7 +7,7 @@ function RoomComponent({
 }) {
   return (
     <button
-      onClick={() => onChange(room.id, { ...room, on: !room.on })}
+      onClick={() => onChange(room.id + room.floor, { ...room, on: !room.on })}
       className={`relative rounded-3xl p-4 overflow-hidden transition-all duration-300 ${room.on ? `bg-gradient-to-br from-lol-pink/ to-lol-darkblue` : "bg-lol-darkblue border  border-white/10"}`}
       style={{
         borderColor: room.on ? `${room.color}/40` : undefined,

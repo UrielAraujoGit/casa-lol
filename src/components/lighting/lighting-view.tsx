@@ -1,24 +1,43 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import GlamToggleComponent from "../glam-toggle";
 import RoomComponent, { type RoomType } from "./room";
 import { HOUSE_ROOMS } from "../constants/house-rooms";
-import { setApiRoom } from "../../api/api.service";
+import { setApiRgb, setApiRoom } from "../../api/api.service";
+import BewitchedContext from "../../providers/bewwitched.context";
 
 function LightingView() {
   const [rooms, setRooms] = useState<RoomType[]>(HOUSE_ROOMS);
-  const [bewitched, setBewitched] = useState(Boolean);
-  const handleChange = async (id: string, room: RoomType) => {
+  const [disabledBewitched, setDisabledBewitched] = useState(false);
+  const { bewitched, setBewitched } = useContext(BewitchedContext);
+
+  const handleChangeRoom = async (key: string, room: RoomType) => {
     try {
       const response_status = await setApiRoom(room.floor, room.id, room.on);
       if (response_status === 200) {
         setRooms((prev) =>
-          prev.map((r) => (r.id === id ? { ...r, ...room } : r)),
+          prev.map((r) => (r.id + r.floor === key ? { ...r, ...room } : r)),
         );
       } else {
         throw new Error("status is not 200!");
       }
     } catch (e) {
       console.error("Error al setear habitación", e);
+    }
+  };
+
+  const toggleBewitched = async () => {
+    setDisabledBewitched(true);
+    try {
+      const response_status = await setApiRgb(!bewitched);
+      if (response_status === 200) {
+        setBewitched(!bewitched);
+        setDisabledBewitched(false);
+      } else {
+        throw new Error("status is not 200!");
+      }
+    } catch (e) {
+      setDisabledBewitched(false);
+      console.error("Error al cambiar el modo embrujado", e);
     }
   };
 
@@ -55,7 +74,8 @@ function LightingView() {
         <GlamToggleComponent
           on={bewitched}
           color="#FF3EB5"
-          onToggle={() => setBewitched(!bewitched)}
+          onToggle={() => toggleBewitched()}
+          disabled={disabledBewitched}
         />
       </div>
 
@@ -65,7 +85,7 @@ function LightingView() {
           <RoomComponent
             key={room.id + room.floor}
             room={room}
-            onChange={(id, room) => handleChange(id, room)}
+            onChange={(key, room) => handleChangeRoom(key, room)}
           />
         ))}
       </div>

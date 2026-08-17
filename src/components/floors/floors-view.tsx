@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { HOUSE_FLOORS } from "../constants/house-floors";
 import {
   ChevronUp,
@@ -9,21 +9,22 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { setApiFloor } from "../../api/api.service";
+import FloorContext from "../../providers/floor.context";
 
-function Floorsdiv() {
-  const [current, setCurrent] = useState(0);
+function FloorsView() {
+  const { floor, setFloor } = useContext(FloorContext);
   const [target, setTarget] = useState<number | null>(null);
   const [moving, setMoving] = useState(false);
 
   const callFloor = async (floorId: number) => {
-    if (moving || floorId === current) return;
+    if (moving || floorId === floor) return;
     setTarget(floorId);
     setMoving(true);
 
     try {
       const response_status = await setApiFloor(floorId);
       if (response_status === 200) {
-        setCurrent(floorId);
+        setFloor(floorId);
         setTarget(null);
         setMoving(false);
       } else {
@@ -36,8 +37,8 @@ function Floorsdiv() {
     }
   };
 
-  const elevatorPct = (current / (HOUSE_FLOORS.length - 1)) * 100;
-  const currentFloor = HOUSE_FLOORS.find((f) => f.id === current)!;
+  const elevatorPct = (floor / (HOUSE_FLOORS.length - 1)) * 100;
+  const currentFloor = HOUSE_FLOORS.find((f) => f.id === floor)!;
 
   return (
     <div className="flex flex-col gap-4 px-4 pb-6">
@@ -58,7 +59,7 @@ function Floorsdiv() {
               </p>
               {moving && (
                 <div className="flex flex-col gap-1">
-                  {target !== null && target > current ? (
+                  {target !== null && target > floor ? (
                     <ChevronUp
                       className="w-5 h-5"
                       style={{
@@ -153,13 +154,13 @@ function Floorsdiv() {
 
         {/* Floor buttons */}
         <div className="flex flex-col gap-2 flex-1">
-          {HOUSE_FLOORS.map((floor) => {
-            const isHere = current === floor.id;
-            const isTarget = target === floor.id;
+          {HOUSE_FLOORS.map((item) => {
+            const isHere = floor === item.id;
+            const isTarget = target === item.id;
             return (
               <button
-                key={floor.id}
-                onClick={() => callFloor(floor.id)}
+                key={item.id}
+                onClick={() => callFloor(item.id)}
                 disabled={moving && !isTarget}
                 className={`flex items-center justify-between rounded-2xl px-4 py-3 text-left transition-all duration-200 active:scale-[0.98] disabled:opacity-40 border border-solid ${isHere ? "border-lol-pink/40" : isTarget ? "border-lol-pink/25" : "border-white/10"}`}
                 style={{
@@ -172,7 +173,7 @@ function Floorsdiv() {
                 <p
                   className={`font-fredoka font-bold text-lg leading-none text-lol-pink ${isHere ? "bg-gradient-to-br from-lol-pink to-lol-purple text-transparent bg-clip-text" : "text-lol-lavender"}`}
                 >
-                  {floor.short}
+                  {item.short}
                 </p>
                 <p
                   className="text-xs"
@@ -181,7 +182,7 @@ function Floorsdiv() {
                     color: isHere ? "#FAF0FF" : "#4A3860",
                   }}
                 >
-                  {floor.label}
+                  {item.label}
                 </p>
                 {isHere && (
                   <p className="text-sm drop-shadow-[0_0_4px_#FF3EB5] text-lol-purple">
@@ -233,4 +234,4 @@ function Floorsdiv() {
   );
 }
 
-export default Floorsdiv;
+export default FloorsView;
