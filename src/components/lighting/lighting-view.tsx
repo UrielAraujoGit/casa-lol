@@ -14,7 +14,7 @@ function LightingView() {
     <div className="flex flex-col gap-4 px-4 pb-6 ">
       {/* Master */}
       <div
-        className="rounded-3xl p-4 flex flex-row items-center justify-between relative overflow-hidden bg-linear-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-pink/20"
+        className="rounded-3xl p-4 flex flex-row items-center justify-between relative overflow-hidden bg-gradient-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-pink/20"
         style={{
           boxShadow: bewitched ? "0 0 28px 0 rgba(255,62,181,0.2)" : "none",
         }}
@@ -32,7 +32,7 @@ function LightingView() {
             Modo Embrujado
           </p>
           <p
-            className={`text-base font-semibold ${bewitched ? "bg-linear-to-r from-lol-pink to-lol-purple bg-clip-text text-transparent" : "text-white/30"}`}
+            className={`text-base font-semibold ${bewitched ? "bg-gradient-to-r from-lol-pink to-lol-purple bg-clip-text text-transparent" : "text-white/30"}`}
             style={{
               fontFamily: "'Fredoka', sans-serif",
             }}

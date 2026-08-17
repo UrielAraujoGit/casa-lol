@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./App.css";
 import FloorsView from "./components/floors/floors-view";
-import GlitterBg from "./components/glitter-bag";
+import GlitterBg from "./components/glitter-bg";
 import GradientBackgroundComponent from "./components/gradient";
 import HeaderComponent from "./components/header";
 import LightingView from "./components/lighting/lighting-view";
@@ -14,15 +14,17 @@ function App() {
   return (
     <TabContext.Provider value={{ tab, setTab }}>
       <GradientBackgroundComponent>
-        <div className="min-h-screen flex-1 -center  p-4 min-w-full">
-          <div>
+        <div className="h-screen flex flex-col shrink-0 p-4 min-w-full font-fredoka">
+          <div className="relative top-0 left-0">
             <HeaderComponent />
           </div>
           {/* switch view ligting / floors */}
-          <div className="w-full items-center">
+          <div className="w-full items-center flex-1 min-h-0 overflow-y-auto ">
             {tab === "lighting" ? <LightingView /> : <FloorsView />}
           </div>
-          <NavBar />
+          <div className="shrink-0">
+            <NavBar />
+          </div>
           <GlitterBg />
         </div>
       </GradientBackgroundComponent>

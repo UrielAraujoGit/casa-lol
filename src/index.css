@@ -3,9 +3,34 @@
 @theme {
   --color-lol-pink: #ff3eb5;
   --color-lol-purple: #8b35ff;
-  --color-lol-lightblue: "#00DCFF";
-  --color-lol-lavender: "#9B85C0";
-  --color-lol-blue: "#1E1435";
-  --color-lol-darkblue: "#160F28";
-  --color-lol-black: "#0D0A18";
+  --color-lol-lightblue: #00dcff;
+  --color-lol-lavender: #9b85c0;
+  --color-lol-blue: #1e1435;
+  --color-lol-darkblue: #160f28;
+  --color-lol-black: #0d0a18;
+  --color-lol-white: #faf0ff;
+}
+
+@font-face {
+  font-family: "Fredoka";
+  src: url("assets/fonts/Fredoka/Fredoka-VariableFont_wdth\,wght.ttf")
+    format("ttf");
+}
+
+@font-face {
+  font-family: "Nunito";
+  src: url("assets/fonts/Nunito/Nunito-VariableFont_wght.ttf")
+    format("ttf");
+}
+
+@font-face {
+  font-family: "DM Mono";
+  src: url("assets/fonts/DM_Mono/DMMono-Regular.ttf")
+    format("ttf");
+}
+
+@theme {
+  --font-fredoka: "Fredoka", sans-serif;
+  --font-nunito: "Nunito", sans-serif;
+  --font-dm-mono: "DM Mono", sans-serif;
 }

@@ -34,7 +34,7 @@ function Floorsdiv() {
   return (
     <div className="flex flex-col gap-4 px-4 pb-6">
       {/* Status */}
-      <div className="rounded-3xl p-5 relative overflow-hidden bg-linear-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-purple/25 shadow-[0_0_32px_0_theme(colors.lol-purple/15%)]">
+      <div className="rounded-3xl p-5 relative overflow-hidden bg-gradient-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-purple/25 shadow-[0_0_32px_0_theme(colors.lol-purple/15%)]">
         <div className="absolute top-0 left-0 w-40 h-40 rounded-full pointer-events-none grad bg-[radial-gradient(circle,rgba(255,62,181,0.12)_0%,transparent_70%)] -translate-x-1/3 -translate-y-2/5" />
         <div className="flex flex-row items-end justify-between relative">
           <div>
@@ -45,12 +45,7 @@ function Floorsdiv() {
               Piso actual
             </p>
             <div className="flex flex-row items-center gap-3">
-              <p
-                className="font-bold text-5xl leading-none bg-linear-to-br from-lol-pink to-lol-purple bg-clip-text text-transparent"
-                style={{
-                  fontFamily: "'Fredoka', sans-serif",
-                }}
-              >
+              <p className="font-fredoka font-bold text-5xl leading-none bg-gradient-to-br from-lol-pink to-lol-purple bg-clip-text text-transparent">
                 {currentFloor.short}
               </p>
               {moving && (
@@ -76,11 +71,7 @@ function Floorsdiv() {
               )}
             </div>
             <p
-              className="text-sm mt-1"
-              style={{
-                fontFamily: "'Nunito', sans-serif",
-                color: moving ? "#FF3EB5" : "#9B85C0",
-              }}
+              className={`text-sm mt-1 font-nunito ${moving ? "text-lol-pink" : "text-lol-lavender"}`}
             >
               {moving
                 ? `✦ Ir a ${HOUSE_FLOORS.find((f) => f.id === target)?.label}…`
@@ -132,7 +123,10 @@ function Floorsdiv() {
           <Diamond size={8} color="#8B35FF" />
           <div className="relative flex-1 my-1 w-4 rounded-full bg-white/5">
             <p
-              className={`absolute left-1/2 -translate-x-1/2 w-7 h-7 rounded-full transition-all duration-700 ease-in-out flex items-center justify-center bottom-[calc(${elevatorPct}% - ${elevatorPct * 0.28}px] bg-linear-to-br from-lol-pink to-lol-purple shadow-[0_0_18px_4px] shadow-lol-pink/60`}
+              className={`absolute left-1/2 -translate-x-1/2 w-7 h-7 rounded-full transition-all duration-700 ease-in-out flex items-center justify-center  bg-gradient-to-br from-lol-pink to-lol-purple shadow-[0_0_18px_4px] shadow-lol-pink/60`}
+              style={{
+                bottom: `calc(${elevatorPct}% - ${elevatorPct * 0.28}px`,
+              }}
             >
               ✦
             </p>
@@ -159,25 +153,16 @@ function Floorsdiv() {
                 key={floor.id}
                 onClick={() => callFloor(floor.id)}
                 disabled={moving && !isTarget}
-                className={`flex items-center justify-between rounded-2xl px-4 py-3 text-left transition-all duration-200 active:scale-[0.98] disabled:opacity-40 border border-solid ${isHere ? "border-lol-pink/40" : isTarget ? "border-lol-pink/25" : "border-white/60"}`}
+                className={`flex items-center justify-between rounded-2xl px-4 py-3 text-left transition-all duration-200 active:scale-[0.98] disabled:opacity-40 border border-solid ${isHere ? "border-lol-pink/40" : isTarget ? "border-lol-pink/25" : "border-white/10"}`}
                 style={{
-                  backgroundColor: isHere
-                    ? "linear-gradient(135deg, rgba(255,62,181,0.2), rgba(lol-purple,0.15))"
-                    : isTarget
-                      ? "rgba(255,62,181,0.08)"
-                      : "rgba(255,255,255,0.03)",
-
                   boxShadow: isHere
                     ? "0 0 18px 0 rgba(255,62,181,0.2)"
                     : "none",
+                  animation: isTarget && moving ? "pulse 1s infinite" : "none",
                 }}
-                /* animation: isTarget && moving ? "pulse 1s infinite" : "none", */
               >
                 <p
-                  className={`font-bold text-lg leading-none text-lol-pink ${isHere ? "bg-linear-to-br from-lol-pink to-lol-purple text-transparent bg-clip-text" : "text-lol-lavender"}`}
-                  style={{
-                    fontFamily: "'Fredoka', sans-serif",
-                  }}
+                  className={`font-fredoka font-bold text-lg leading-none text-lol-pink ${isHere ? "bg-gradient-to-br from-lol-pink to-lol-purple text-transparent bg-clip-text" : "text-lol-lavender"}`}
                 >
                   {floor.short}
                 </p>

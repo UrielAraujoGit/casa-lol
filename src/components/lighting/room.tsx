@@ -38,18 +38,13 @@ function RoomComponent({
       </div>
 
       <p
-        className="text-xs font-semibold mb-0.5 leading-tight"
-        style={{
-          fontFamily: "'Fredoka', sans-serif",
-          color: room.on ? "#FAF0FF" : "#9B85C0",
-        }}
+        className={`text-sm text-left font-semibold mb-0.5 leading-tight font-fredoka ${room.on ? "text-lol-white" : "text-lol-lavender"}`}
       >
         {room.name}
       </p>
       <p
-        className="text-[10px] mb-3"
+        className="text-sm text-left mb-3 font-dm-mono"
         style={{
-          fontFamily: "'DM Mono', monospace",
           color: room.on ? room.color : "#4A3860",
         }}
       >

@@ -6,7 +6,7 @@ export function GradientBackgroundComponent({
   return (
     <div className="flex-1 bg-[#07050F]">
       <svg
-        className="absolute inset-0 z-0"
+        className="absolute inset-0 -z-10"
         style={{ height: "100%", width: "100%" }}
       >
         <defs>
