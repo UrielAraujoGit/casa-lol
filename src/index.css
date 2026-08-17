@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+@theme {
+  --color-lol-pink: #ff3eb5;
+  --color-lol-purple: #8b35ff;
+  --color-lol-lightblue: "#00DCFF";
+  --color-lol-lavender: "#9B85C0";
+  --color-lol-blue: "#1E1435";
+  --color-lol-darkblue: "#160F28";
+  --color-lol-black: "#0D0A18";
+}
