@@ -2,19 +2,19 @@ function GlamToggleComponent({
   on,
   color,
   onToggle,
-  disabled
+  disabled,
 }: {
   on: boolean;
   color: string;
   onToggle: () => void;
-  disabled?:boolean
+  disabled?: boolean;
 }) {
   return (
     <button
       onClick={onToggle}
       disabled={disabled}
       aria-label={on ? "Turn off" : "Turn on"}
-      className={`relative w-11 h-6 rounded-full shrink-0 active:scale-95 transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${on ? "bg-gradient-to-br from-lol-pink to-lol-purple" : "border border-solid border-white/10 bg-white/10 "}`}
+      className={`relative w-11 h-6 rounded-full shrink-0 active:scale-95 transition-all duration-300 ease-[cubic-bezier(0.25,0.1,0.25,1)] ${on ? "bg-gradient-to-br from-lol-pink to-lol-purple" : "border border-solid border-white/10 bg-white/10 "} ${disabled ? "opacity-50" : ""} `}
       style={{
         boxShadow: on ? `0 0 14px 3px ${color}55` : "none",
       }}

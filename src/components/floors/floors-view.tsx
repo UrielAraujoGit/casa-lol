@@ -22,8 +22,8 @@ function FloorsView() {
     setMoving(true);
 
     try {
-      const response_status = await setApiFloor(floorId);
-      if (response_status === 200) {
+      const response = await setApiFloor(floorId);
+      if (response.status === 200) {
         setFloor(floorId);
         setTarget(null);
         setMoving(false);
@@ -31,7 +31,7 @@ function FloorsView() {
         throw new Error("status is not 200!");
       }
     } catch (e) {
-      console.error("Error al mover el ascensor", e);
+      alert("Error al mover el ascensor " + e);
       setTarget(null);
       setMoving(false);
     }
@@ -41,9 +41,9 @@ function FloorsView() {
   const currentFloor = HOUSE_FLOORS.find((f) => f.id === floor)!;
 
   return (
-    <div className="flex flex-col gap-4 px-4 pb-6">
+    <div className="flex flex-col gap-4 px-4 pb-6 min-h-full justify-between">
       {/* Status */}
-      <div className="rounded-3xl p-5 relative overflow-hidden bg-gradient-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-purple/25 shadow-[0_0_32px_0_theme(colors.lol-purple/15%)]">
+      <div className="rounded-3xl p-5 relative overflow-hidden bg-gradient-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-purple/25 shadow-[0_0_32px_0_--theme(--color-lol-purple/15%)]">
         <div className="absolute top-0 left-0 w-40 h-40 rounded-full pointer-events-none grad bg-[radial-gradient(circle,rgba(255,62,181,0.12)_0%,transparent_70%)] -translate-x-1/3 -translate-y-2/5" />
         <div className="flex flex-row items-end justify-between relative">
           <div>
@@ -126,7 +126,7 @@ function FloorsView() {
       </div>
 
       {/* Shaft + Floor Buttons */}
-      <div className="flex flex-row gap-3">
+      <div className="flex flex-row gap-3 my-6">
         {/* Shaft visualizer */}
         <div className="flex flex-col items-center justify-between py-1 w-12 shrink-0">
           <Diamond size={8} color="#8B35FF" />
@@ -153,7 +153,7 @@ function FloorsView() {
         </div>
 
         {/* Floor buttons */}
-        <div className="flex flex-col gap-2 flex-1">
+        <div className="flex flex-col gap-4 flex-1">
           {HOUSE_FLOORS.map((item) => {
             const isHere = floor === item.id;
             const isTarget = target === item.id;

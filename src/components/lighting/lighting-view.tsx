@@ -3,17 +3,18 @@ import GlamToggleComponent from "../glam-toggle";
 import RoomComponent, { type RoomType } from "./room";
 import { HOUSE_ROOMS } from "../constants/house-rooms";
 import { setApiRgb, setApiRoom } from "../../api/api.service";
-import BewitchedContext from "../../providers/bewwitched.context";
+import PoolPartyContext from "../../providers/pool-party.context";
 
 function LightingView() {
   const [rooms, setRooms] = useState<RoomType[]>(HOUSE_ROOMS);
-  const [disabledBewitched, setDisabledBewitched] = useState(false);
-  const { bewitched, setBewitched } = useContext(BewitchedContext);
+  const [disabledPoolParty, setDisabledPoolParty] = useState(false);
+  const { poolParty: poolParty, setPoolParty: setPoolParty } =
+    useContext(PoolPartyContext);
 
   const handleChangeRoom = async (key: string, room: RoomType) => {
     try {
-      const response_status = await setApiRoom(room.floor, room.id, room.on);
-      if (response_status === 200) {
+      const response = await setApiRoom(room.floor, room.id, room.on);
+      if (response.status === 200) {
         setRooms((prev) =>
           prev.map((r) => (r.id + r.floor === key ? { ...r, ...room } : r)),
         );
@@ -21,23 +22,23 @@ function LightingView() {
         throw new Error("status is not 200!");
       }
     } catch (e) {
-      console.error("Error al setear habitación", e);
+      alert("Error al setear habitación " + e);
     }
   };
 
-  const toggleBewitched = async () => {
-    setDisabledBewitched(true);
+  const togglePoolParty = async () => {
+    setDisabledPoolParty(true);
     try {
-      const response_status = await setApiRgb(!bewitched);
-      if (response_status === 200) {
-        setBewitched(!bewitched);
-        setDisabledBewitched(false);
+      const response = await setApiRgb(!poolParty);
+      if (response.status === 200) {
+        setPoolParty(!poolParty);
+        setDisabledPoolParty(false);
       } else {
         throw new Error("status is not 200!");
       }
     } catch (e) {
-      setDisabledBewitched(false);
-      console.error("Error al cambiar el modo embrujado", e);
+      setDisabledPoolParty(false);
+      alert("Error al cambiar el modo pool party " + e);
     }
   };
 
@@ -47,10 +48,10 @@ function LightingView() {
       <div
         className="rounded-3xl p-4 flex flex-row items-center justify-between relative overflow-hidden bg-gradient-to-br from-lol-blue to-lol-darkblue border border-solid border-lol-pink/20"
         style={{
-          boxShadow: bewitched ? "0 0 28px 0 rgba(255,62,181,0.2)" : "none",
+          boxShadow: poolParty ? "0 0 28px 0 rgba(255,62,181,0.2)" : "none",
         }}
       >
-        {bewitched && (
+        {poolParty && (
           <div className="absolute inset-0 pointer-events-none">
             <div className="absolute top-0 right-0 w-32 h-32 rounded-full bg-[radial-gradient(circle,#8B5CF633_0%,transparent_70%)] translate-x-[20%] translate-y-[-40%]" />
           </div>
@@ -60,22 +61,22 @@ function LightingView() {
             className="text-[10px] uppercase tracking-widest mb-0.5"
             style={{ fontFamily: "'DM Mono', monospace", color: "#9B85C0" }}
           >
-            Modo Embrujado
+            Modo Pool Party ✦
           </p>
           <p
-            className={`text-base font-semibold ${bewitched ? "bg-gradient-to-r from-lol-pink to-lol-purple bg-clip-text text-transparent" : "text-white/30"}`}
+            className={`text-base font-semibold ${poolParty ? "bg-gradient-to-r from-lol-pink to-lol-purple bg-clip-text text-transparent" : "text-white/30"}`}
             style={{
               fontFamily: "'Fredoka', sans-serif",
             }}
           >
-            {bewitched ? "Brillando ✦" : "Apagado"}
+            {poolParty ? "Brillando ✦" : "Apagado"}
           </p>
         </div>
         <GlamToggleComponent
-          on={bewitched}
+          on={poolParty}
           color="#FF3EB5"
-          onToggle={() => toggleBewitched()}
-          disabled={disabledBewitched}
+          onToggle={() => togglePoolParty()}
+          disabled={disabledPoolParty}
         />
       </div>
 

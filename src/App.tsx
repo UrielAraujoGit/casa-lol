@@ -8,7 +8,7 @@ import LightingView from "./components/lighting/lighting-view";
 import NavBar from "./components/nav-bar";
 import TabContext, { type TabOptionType } from "./providers/tab.context";
 import FloorContext from "./providers/floor.context";
-import BewitchedContext from "./providers/bewwitched.context";
+import PoolPartyContext from "./providers/pool-party.context";
 
 function App() {
   const [tab, setTab] = useState<TabOptionType>("lighting");
@@ -18,7 +18,7 @@ function App() {
   return (
     <TabContext.Provider value={{ tab, setTab }}>
       <FloorContext.Provider value={{ floor, setFloor }}>
-        <BewitchedContext.Provider value={{ bewitched, setBewitched }}>
+        <PoolPartyContext.Provider value={{ poolParty: bewitched, setPoolParty: setBewitched }}>
           <GradientBackgroundComponent>
             <div className="h-screen flex flex-col shrink-0 p-4 min-w-full font-fredoka">
               <div className="relative top-0 left-0">
@@ -34,7 +34,7 @@ function App() {
               <GlitterBg />
             </div>
           </GradientBackgroundComponent>
-        </BewitchedContext.Provider>
+        </PoolPartyContext.Provider>
       </FloorContext.Provider>
     </TabContext.Provider>
   );
