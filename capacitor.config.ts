@@ -9,6 +9,13 @@ const config: CapacitorConfig = {
       enabled: true,
     },
   },
+  android: {
+    allowMixedContent: true,
+  },
+  server: {
+    androidScheme: "http",
+    cleartext: true
+  }
 };
 
 export default config;

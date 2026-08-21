@@ -1,6 +1,6 @@
 import { CapacitorHttp, type HttpOptions } from "@capacitor/core";
 
-const HOUSE_DEVICE = "device";
+const HOUSE_DEVICE = "http://192.168.1.33";
 
 export const setApiRoom = async (floor: number, room: string, on: boolean) => {
   const options: HttpOptions = {
